@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sistema de Gestão Financeira Pessoal">
-  <title>💰 Gestão Financeira Pro</title>
+  <meta name="description" content="Sistema de Gestão Financeira Pessoal Seguro">
+  <title>💰 Dashboard | Gestão Financeira Pro</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Chart.js CDN -->
+  <!-- Chart.js carregado com defer para não bloquear renderização -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
 </head>
 <body data-theme="light">
 
-  <!-- 🔝 HEADER -->
+  <!-- 🔝 HEADER COM BOTÃO DE LOGOUT -->
   <header>
     <div class="header-content">
       <h1>💰 Gestão Financeira Pro</h1>
+      
       <div class="header-actions">
-        <select id="month-filter" aria-label="Filtro de mês">
+        <select id="month-filter" aria-label="Filtrar por mês">
           <option value="">Todos os meses</option>
           <option value="1">Janeiro</option>
           <option value="2">Fevereiro</option>
@@ -32,15 +33,18 @@
           <option value="12">Dezembro</option>
         </select>
 
-        <select id="year-filter" aria-label="Filtro de ano"></select>
+        <select id="year-filter" aria-label="Filtrar por ano"></select>
 
-        <button id="theme-toggle" title="Alternar tema" aria-label="Alternar tema">🌙</button>
-        <button id="export-btn" title="Exportar CSV" aria-label="Exportar CSV">📥 CSV</button>
+        <button id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema">🌙</button>
+        <button id="export-btn" title="Exportar dados em CSV" aria-label="Exportar CSV">📥 CSV</button>
+        
+        <!-- ✅ BOTÃO DE LOGOUT INTEGRADO -->
+        <button id="logout-btn" title="Sair da conta" aria-label="Sair da conta">🚪 Sair</button>
       </div>
     </div>
   </header>
 
-  <!-- 📊 MAIN -->
+  <!-- 📊 CONTEÚDO PRINCIPAL -->
   <main>
 
     <!-- Cards de Resumo -->
@@ -60,7 +64,7 @@
     </section>
 
     <!-- Gráficos -->
-    <section class="charts-section" aria-label="Gráficos">
+    <section class="charts-section" aria-label="Gráficos financeiros">
       <div class="chart-container">
         <h3>📊 Distribuição por Categoria</h3>
         <canvas id="categoryChart"></canvas>
@@ -71,32 +75,32 @@
       </div>
     </section>
 
-    <!-- Formulário -->
+    <!-- Formulário de Transação -->
     <section class="form-section">
       <h2 id="form-title">➕ Nova Transação</h2>
       <form id="transaction-form" autocomplete="off">
         <input type="hidden" id="transaction-id">
 
-        <input
-          type="text"
-          id="desc"
-          placeholder="Descrição (ex: Supermercado)"
-          maxlength="100"
-          required
-          aria-label="Descrição"
+        <input 
+          type="text" 
+          id="desc" 
+          placeholder="Descrição (ex: Supermercado)" 
+          maxlength="100" 
+          required 
+          aria-label="Descrição da transação"
         >
 
-        <input
-          type="number"
-          id="amount"
-          placeholder="Valor (ex: 150.00)"
-          step="0.01"
-          min="0.01"
-          required
-          aria-label="Valor"
+        <input 
+          type="number" 
+          id="amount" 
+          placeholder="Valor (ex: 150.00)" 
+          step="0.01" 
+          min="0.01" 
+          required 
+          aria-label="Valor da transação"
         >
 
-        <select id="type" required aria-label="Tipo">
+        <select id="type" required aria-label="Tipo de transação">
           <option value="income">💵 Receita</option>
           <option value="expense">💸 Despesa</option>
         </select>
@@ -105,7 +109,7 @@
           <option value="">Selecione uma categoria</option>
         </select>
 
-        <input type="date" id="date" required aria-label="Data">
+        <input type="date" id="date" required aria-label="Data da transação">
 
         <div class="form-actions">
           <button type="submit" id="submit-btn">➕ Adicionar</button>
@@ -116,34 +120,34 @@
 
     <!-- Tabela de Histórico -->
     <section class="table-section">
-      <h2>📋 Histórico</h2>
+      <h2>📋 Histórico de Transações</h2>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Data</th>
-              <th>Descrição</th>
-              <th>Categoria</th>
-              <th>Valor</th>
-              <th>Ações</th>
+              <th scope="col">Data</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Categoria</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody id="transactions-body">
             <tr>
-              <td colspan="5" class="text-center text-muted">Carregando...</td>
+              <td colspan="5" class="text-center text-muted">Carregando dados...</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="pagination" id="pagination"></div>
+      <div class="pagination" id="pagination" aria-label="Navegação de páginas"></div>
     </section>
 
   </main>
 
-  <!-- Toasts -->
+  <!-- Container de Notificações Toast -->
   <div id="toast-container" aria-live="polite"></div>
 
-  <!-- App JS -->
+  <!-- Lógica do Dashboard (já inclui proteção de rota e logout) -->
   <script src="app.js" defer></script>
 </body>
 </html>
