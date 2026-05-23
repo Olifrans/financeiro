@@ -3,47 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestão Financeira</title>
+  <title>Gestão Financeira Pro</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
-<body>
+<body data-theme="light">
   <header>
-    <h1>💰 Gestão Financeira Pessoal</h1>
+    <div class="header-content">
+      <h1>💰 Gestão Financeira Pro</h1>
+      <div class="header-actions">
+        <select id="month-filter">
+          <option value="">Todos os meses</option>
+          <option value="1">Janeiro</option>
+          <option value="2">Fevereiro</option>
+          <option value="3">Março</option>
+          <option value="4">Abril</option>
+          <option value="5">Maio</option>
+          <option value="6">Junho</option>
+          <option value="7">Julho</option>
+          <option value="8">Agosto</option>
+          <option value="9">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+        <select id="year-filter"></select>
+        <button id="theme-toggle" title="Alternar tema">🌙</button>
+        <button id="export-btn" title="Exportar CSV">📥</button>
+      </div>
+    </div>
   </header>
 
   <main>
     <section class="summary">
-      <div class="card income"><h3>Receitas</h3><p id="total-income">R$ 0,00</p></div>
-      <div class="card expense"><h3>Despesas</h3><p id="total-expense">R$ 0,00</p></div>
-      <div class="card balance"><h3>Saldo</h3><p id="total-balance">R$ 0,00</p></div>
+      <div class="card income">
+        <h3>💵 Receitas</h3>
+        <p id="total-income">R$ 0,00</p>
+      </div>
+      <div class="card expense">
+        <h3>💸 Despesas</h3>
+        <p id="total-expense">R$ 0,00</p>
+      </div>
+      <div class="card balance">
+        <h3>💰 Saldo</h3>
+        <p id="total-balance">R$ 0,00</p>
+      </div>
+    </section>
+
+    <section class="charts-section">
+      <div class="chart-container">
+        <h3>Distribuição por Categoria</h3>
+        <canvas id="categoryChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Evolução Mensal</h3>
+        <canvas id="monthlyChart"></canvas>
+      </div>
     </section>
 
     <section class="form-section">
-      <h2>Nova Transação</h2>
+      <h2 id="form-title">➕ Nova Transação</h2>
       <form id="transaction-form">
-        <input type="text" id="desc" placeholder="Descrição" required>
+        <input type="hidden" id="transaction-id">
+        <input type="text" id="desc" placeholder="Descrição" required maxlength="100">
         <input type="number" id="amount" placeholder="Valor (ex: 150.00)" step="0.01" min="0.01" required>
         <select id="type" required>
-          <option value="income">Receita</option>
-          <option value="expense">Despesa</option>
+          <option value="income">💵 Receita</option>
+          <option value="expense">💸 Despesa</option>
         </select>
-        <select id="category" required></select>
+        <select id="category" required>
+          <option value="">Selecione uma categoria</option>
+        </select>
         <input type="date" id="date" required>
-        <button type="submit">➕ Adicionar</button>
+        <div class="form-actions">
+          <button type="submit" id="submit-btn">➕ Adicionar</button>
+          <button type="button" id="cancel-btn" style="display:none;">❌ Cancelar</button>
+        </div>
       </form>
     </section>
 
     <section class="table-section">
-      <h2>Histórico</h2>
-      <table>
-        <thead>
-          <tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Ação</th></tr>
-        </thead>
-        <tbody id="transactions-body"></tbody>
-      </table>
+      <h2>📋 Histórico</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Valor</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="transactions-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
     </section>
   </main>
 
+  <div id="toast-container"></div>
   <script src="app.js"></script>
 </body>
 </html>
